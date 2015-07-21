@@ -1,15 +1,14 @@
 FROM ubuntu:14.04
-MAINTAINER Kyle Manna <kyle@prettymuchbryce.com>
 
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 8842ce5e && \
     echo "deb http://ppa.launchpad.net/bitcoin/bitcoin/ubuntu trusty main" > /etc/apt/sources.list.d/bitcoin.list
 
 RUN apt-get update && \
-    apt-get install -y bitcoind aria2 && \
+    apt-get install -y bitcoind git aria2 golang postgresql && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ENV HOME /bitcoin
-RUN useradd -s /bin/bash -m -d /bitcoin bitcoin
+RUN useradd -s /bin/bash -m -d /bitcoin bitcoin -p Mam/FKKJ9cU2w
 RUN chown bitcoin:bitcoin -R /bitcoin
 
 ADD ./bin /usr/local/bin
@@ -26,6 +25,8 @@ VOLUME ["/bitcoin"]
 EXPOSE 8332 8333 6881 6882
 
 WORKDIR /bitcoin
+
+
 
 CMD ["btc_oneshot"]
 
